@@ -1,36 +1,4 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-
-//Cypress.Commands.add("Texto_visible", (selector,texto,t) => { 
- //   let tiempo=t
-  //  cy.get(selector).should('be.visible').type(texto)
-   // cy.wait(tiempo)
-// })
-
- // ... (resto del código anterior sin cambios)
+require('cypress-xpath')
 
 Cypress.Commands.add("Texto_visible", (selector, texto, t) => { 
    let tiempo = t;
@@ -110,6 +78,41 @@ Cypress.Commands.add("EsperoElemento", (id) => {
     cy.wait(tiempo)
  })
 
+// Definición del comando personalizado
+Cypress.Commands.add('buscarTexto3', (texto, tiempo) => {
+   // Buscar el texto en la página web
+   cy.contains(texto, { timeout: tiempo }) // Buscar el texto en la página web
+      .should('be.visible').then(($elemento) => {
+          // Extraer el texto del elemento
+          const textoExtraido = $elemento.text();
+
+          // Mostrar el texto extraído
+          console.log(textoExtraido);
+      });
+      cy.screenshot(`${elemento}-${texto.replace(/\s+/g, '-')}`);
+
+});
+
+Cypress.Commands.add('buscarTextoEspecifico', (texto, tiempo) => {
+   cy.contains(texto, { timeout: tiempo }).should('be.visible').scrollIntoView();
+   cy.contains('300 a. C.').scrollIntoView();
+
+ });
+ 
+ Cypress.Commands.add('capturaElementoConTexto', (elemento, texto) => {
+   // Buscar el elemento que contiene el texto especificado
+   cy.contains(elemento, texto)
+     .should('be.visible')
+     .screenshot(`${elemento}-${texto.replace(/\s+/g, '-')}`);
+ });
+
+
+
+Cypress.Commands.add('comprobarElementoPorXPath', (xpath, tiempo) => {
+   // Buscar el elemento por su XPath y verificar que esté visible
+   cy.xpath(xpath).should('be.visible', { timeout: tiempo });
+});
+
  Cypress.Commands.add("Click", (selector,t) => { 
     let tiempo=t
     cy.get(selector).should('be.visible').click()
@@ -127,6 +130,12 @@ Cypress.Commands.add("EsperoElemento", (id) => {
    cy.get(selector, { timeout: tiempo }).should('be.visible').contains(texto).click();
 });
 
+// Definición del comando personalizado
+Cypress.Commands.add('buscarTexto1', (texto, tiempo) => {
+   // Buscar el texto en la página web
+   cy.contains(texto, { timeout: tiempo }) // Buscar el texto en la página web
+      .should('be.visible'); // Asegurarse de que el texto es visible
+});
 
 
  Cypress.Commands.add("Click_force_xpath", (selector,t) => { 
@@ -134,6 +143,20 @@ Cypress.Commands.add("EsperoElemento", (id) => {
     cy.xpath(selector).should('be.visible').click({force:true})
     cy.wait(tiempo)
  })
+
+ Cypress.Commands.add('buscarTexto', (texto, tiempo) => {
+   // Buscar el texto en la página web
+   cy.contains(texto, { timeout: tiempo }) // Buscar el texto en la página web
+      .should('be.visible'); // Asegurarse de que el texto es visible
+});
+
+ Cypress.Commands.add('capturaElementoConTexto', (elemento, texto) => {
+   // Buscar el elemento que contiene el texto especificado
+   cy.contains(elemento, texto)
+     .should('be.visible')
+     .screenshot(`${elemento}-${texto.replace(/\s+/g, '-')}`);
+ });
+ 
 
  Cypress.Commands.add("Validar_campo", (selector,men,nombre_campo,t) => { 
    cy.xpath(selector).should("be.visible").then((val)=>{

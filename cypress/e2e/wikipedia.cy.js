@@ -1,10 +1,19 @@
+require('cypress-xpath')
+
 describe('Adaptación de Selenium a Cypress', () => {
 
     // Paso 1: Navegar a Google y buscar "automatización"
     it('Navegar y buscar en Google', () => {
         cy.VisitarWeb('https://www.google.com',3);  // Navegar a Google
-        cy.BuscarYEnviar('APjFqb', 'automatización', 2);
+        cy.BuscarYEnviar('APjFqb', 'automatización', 4);
         cy.buscarYHacerClic('h3.LC20lb.MBeuO.DKV0Md', 'Automatización - Wikipedia, la enciclopedia libre', 5000);
+        cy.buscarTextoEspecifico('300 a. C.', 5000);
+        cy.capturaElementoConTexto('p', '300 a. C.');
+
+
+
+        
+
     
         
         

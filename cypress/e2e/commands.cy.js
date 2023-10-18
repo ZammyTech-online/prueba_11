@@ -34,7 +34,7 @@
 
 Cypress.Commands.add("Texto_visible", (selector, texto, t) => { 
    let tiempo = t;
-   cy.get(selector, { timeout: 10000 }).should('be.visible').type(texto);
+   cy.get(selector, { timeout: 20000 }).should('be.visible').type(texto);
    cy.wait(tiempo);
 });
 
@@ -48,6 +48,60 @@ Cypress.Commands.add("ClickBotonSubmit", (selector, tiempoEspera) => {
    cy.xpath(selector, { timeout: 10000 }).should('be.visible').click();
    cy.wait(tiempoEspera);
 });
+
+Cypress.Commands.add("VisitarWeb", (url, tiempoEspera) => { 
+   cy.visit(url)
+});
+
+Cypress.Commands.add("BuscarYEnviar", (id, texto, tiempoEspera) => {
+   let tiempo = tiempoEspera * 1000;  // Convertir segundos a milisegundos
+
+   // Esperar a que el elemento esté visible, escribir texto, y luego enviar (submit)
+   cy.get(`#${id}`, { timeout: 10000 })
+       .should('be.visible')
+       .type(texto)
+       .wait(tiempo)
+       .type('{enter}');  // Enviar el formulario con la tecla Enter
+});
+
+
+Cypress.Commands.add('hacerClicEnResultado', (terminoBusqueda) => {
+   // Buscar el término de búsqueda y hacer clic en él
+   cy.get('h3').contains(terminoBusqueda).first().click();
+});
+
+Cypress.Commands.add('buscarEnlace', (selector, texto, tiempo) => {
+   // Verificar que el elemento existe y es visible
+   cy.get(selector, { timeout: tiempo }).should('be.visible');
+
+   // Verificar que el elemento contiene el texto esperado
+   cy.get(selector).should('contain', texto);
+});
+
+Cypress.Commands.add('buscarYHacerClic', (selector, texto, tiempo) => {
+   // Buscar el elemento por su selector y texto, y luego hacer clic en él
+   cy.get(selector, { timeout: tiempo }).should('be.visible').contains(texto).click();
+});
+
+
+
+
+
+Cypress.Commands.add('esperoElemento', (selector, texto, tiempo) => {
+   // Buscar el elemento por su selector y esperar a que esté visible
+   cy.get(selector, { timeout: tiempo }).should('be.visible');
+
+   // Verificar que el elemento contiene el texto esperado y luego hacer clic en él
+   cy.get(selector).contains(texto).click();
+});
+
+
+
+Cypress.Commands.add("EsperoElemento", (id) => {
+   cy.get(`#${id}`, { timeout: 10000 }).should('be.visible');
+});
+
+
 
 
  Cypress.Commands.add("Texto_visible_xpath", (selector,texto,t) => { 
@@ -67,6 +121,13 @@ Cypress.Commands.add("ClickBotonSubmit", (selector, tiempoEspera) => {
     cy.get(selector).should('be.visible').click({force:true})
     cy.wait(tiempo)
  })
+
+ Cypress.Commands.add('buscarYHacerClic', (selector, texto, tiempo) => {
+   // Buscar el elemento por su selector y texto, y luego hacer clic en él
+   cy.get(selector, { timeout: tiempo }).should('be.visible').contains(texto).click();
+});
+
+
 
  Cypress.Commands.add("Click_force_xpath", (selector,t) => { 
     let tiempo=t

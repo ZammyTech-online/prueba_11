@@ -9,26 +9,6 @@ describe('Adaptación de Selenium a Cypress', () => {
         cy.buscarYHacerClic('h3.LC20lb.MBeuO.DKV0Md', 'Automatización - Wikipedia, la enciclopedia libre', 5000);
         cy.buscarTextoEspecifico('300 a. C.', 5000);
         cy.capturaElementoConTexto('p', '300 a. C.');
-
-
-
-        
-
-    
-        
-        
-        
-        
-        
-        
-        
-    
-        
-        
-        
-        
-
-        
           // Esperar 2 segundos antes de enviar  // Esperar hasta que el elemento con id 'APjFqb' esté presente y visible       // cy.Texto_visible('input[name="q"]', 'automatización', 20000);  // Buscar "automatización"
     });
 /*
